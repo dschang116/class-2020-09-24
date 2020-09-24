@@ -50,9 +50,42 @@ sep_new <-
 
 a) Make a table using **gt** which shows the five courses with the biggest increase. Use the [How to make a table](https://davidkane9.github.io/PPBDS/tools.html#how-to-make-a-table) section of *The Primer*.
 
+```{r}
+sc_1a <- inner_join(sep_old, sep_new, by = "id") %>%
+  mutate(diff = u_grad.y - u_grad.x) %>%
+  arrange(desc(diff)) %>%
+  slice(1:5)
+
+sc_1a %>% 
+  gt()
+```
+
 b) Make a table using **gt** which shows the five courses with the biggest decrease.
+```{r}
+sc_1b <- inner_join(sep_old, sep_new, by = "id") %>%
+  mutate(diff = u_grad.y - u_grad.x) %>%
+  arrange(diff) %>%
+  slice(1:5)
+
+sc_1b %>%
+  gt()
+```
+
 
 c) Make a nice looking graphic which shows these 10 courses.
+```{r}
+sc_1c <- combine(sc_1a, sc_1b)
+
+sc_1c %>%
+  ggplot(aes(name.x, diff)) +
+    geom_col() +
+    labs(title = "Biggest Decreases in Enrollment",
+         xlab = "Course Name") +
+    coord_flip() +
+    theme_bw() +
+  fct_reorder("diff")
+```
+
 
 d) Write down some thoughts about what might explain these increases and decreases. Or is it all just random? How would we know?
 
