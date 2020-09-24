@@ -51,30 +51,31 @@ sep_new <-
 a) Make a table using **gt** which shows the five courses with the biggest increase. Use the [How to make a table](https://davidkane9.github.io/PPBDS/tools.html#how-to-make-a-table) section of *The Primer*.
 
 ```{r}
-sc_1a <- inner_join(sep_old, sep_new, by = "id") %>%
+top_inc <- inner_join(sep_old, sep_new, by = "id") %>%
   mutate(diff = u_grad.y - u_grad.x) %>%
   arrange(desc(diff)) %>%
   slice(1:5)
 
-sc_1a %>% 
+top_inc %>% 
   gt()
 ```
 
 b) Make a table using **gt** which shows the five courses with the biggest decrease.
 ```{r}
-sc_1b <- inner_join(sep_old, sep_new, by = "id") %>%
+top_dec <- inner_join(sep_old, sep_new, by = "id") %>%
   mutate(diff = u_grad.y - u_grad.x) %>%
   arrange(diff) %>%
   slice(1:5)
 
-sc_1b %>%
+top_dec %>%
   gt()
 ```
 
 
 c) Make a nice looking graphic which shows these 10 courses.
 ```{r}
-sc_1c <- combine(sc_1a, sc_1b)
+sc_1c <- full_join(top_inc, top_dec,
+                   by = c("title", "name", ))
 
 sc_1c %>%
   ggplot(aes(name.x, diff)) +
@@ -100,6 +101,11 @@ See [here](https://rpubs.com/dkane/week-3) for my answers. No need to copy exact
 With our actual Preceptor Table, how might we investigate the effect of work assigned in the first two weeks? Would the estimated Average Treatment Effect be accurate? Why or why not?
 
 Make a spreadsheet --- I recommend using Google sheets, but anything will do --- which shows a simple version of that actual Preceptor Table. What are the units? What are the outcomes? What is the treatment? What is the causal effect? You may assign whichever of the 10 classes you like to treatment and the rest to control.
+
+```{r}
+
+```
+
 
 ## Scene 3
 
